@@ -13,5 +13,5 @@ jobs:
       - name: Redeploy Deployment
         uses: ./
         with:
-          api_key: ${{ secrets.PYRITE_API_KEY }}
-          deployment_id: ${{ secrets.PYRITE_DEPLOYMENT_ID }}
+          api-key: ${{ secrets.PYRITE_API_KEY }}
+          deployment-id: ${{ secrets.PYRITE_DEPLOYMENT_ID }}

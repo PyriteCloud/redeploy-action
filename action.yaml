@@ -1,5 +1,5 @@
-name: "Pyrite Cloud Redeploy Deployment"
-description: "This action redeploys the Deployment on Pyrite Cloud."
+name: "Pyrite Cloud Redeploy Action"
+description: "This action redeploys the deployment on Pyrite Cloud."
 author: "Ayush Chothe"
 
 runs:
@@ -7,9 +7,13 @@ runs:
   main: "dist/index.js"
 
 inputs:
-  api_key:
+  api-key:
     description: "Pyrite Cloud API Key"
     required: true
-  deployment_id:
+  deployment-id:
     description: "Pyrite Cloud Deployment ID"
     required: true
+
+branding:
+  icon: refresh-cw
+  color: "green"
