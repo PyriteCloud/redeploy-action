@@ -1,0 +1,20 @@
+{
+  "name": "redeploy-action",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && ncc build lib/index.js"
+  },
+  "keywords": [],
+  "author": "Ayush Chothe",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@vercel/ncc": "^0.38.1"
+  }
+}

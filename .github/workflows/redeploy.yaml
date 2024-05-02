@@ -1,0 +1,17 @@
+name: redeploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  redeploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Redeploy Deployment
+        uses: ./
+        with:
+          api_key: ${{ secrets.PYRITE_API_KEY }}
+          deployment_id: ${{ secrets.PYRITE_DEPLOYMENT_ID }}
