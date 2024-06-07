@@ -2,16 +2,21 @@ import { getInput } from "@actions/core";
 import axios, { AxiosError } from "axios";
 import { BASE_URL } from "./constants";
 
-function main() {
-  const apiKey = getInput("api-key");
-  const deploymentId = getInput("deployment-id");
+async function main() {
+  const token = getInput("token");
 
-  if (!apiKey) {
-    throw new Error("api-key is required");
+  if (token.trim().length === 0) {
+    throw new Error("Required token");
   }
 
-  if (!deploymentId) {
-    throw new Error("deployment-id is required");
+  const [apiKey, deploymentId] = await new Promise<string[]>((resolve, _) =>
+    resolve(atob(token).split(":"))
+  ).catch((_) => {
+    throw new Error("Invalid token: Token must be base64 encoded");
+  });
+
+  if (!apiKey || !deploymentId) {
+    throw new Error("Invalid token: Parsing token failed");
   }
 
   axios
@@ -20,7 +25,7 @@ function main() {
       {},
       { headers: { "api-key": apiKey } }
     )
-    .then((res) => console.log(res.data))
+    .then((res) => console.log(res.data?.message))
     .catch((error: AxiosError) => {
       console.error(error.message, error.response?.data);
       throw Error(error.message);

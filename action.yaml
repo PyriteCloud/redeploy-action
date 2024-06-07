@@ -3,15 +3,12 @@ description: "This action redeploys the deployment on Pyrite Cloud."
 author: "Ayush Chothe"
 
 runs:
-  using: "node16"
+  using: "node20"
   main: "dist/index.js"
 
 inputs:
-  api-key:
-    description: "Pyrite Cloud API Key"
-    required: true
-  deployment-id:
-    description: "Pyrite Cloud Deployment ID"
+  token:
+    description: "Pyrite Cloud token for specific deployment"
     required: true
 
 branding:

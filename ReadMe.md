@@ -8,12 +8,10 @@ This action can be used after the docker image push step in your Github Workflow
 
 ```yaml
 - name: Redeploy Deployment
-    uses: PyriteCloud/redeploy-action@main
+    uses: PyriteCloud/redeploy-action@v1
     with:
-        api-key: ${{ secrets.PYRITE_API_KEY }}
-        deployment-id: ${{ secrets.PYRITE_DEPLOYMENT_ID }}
+        token: ${{ secrets.PYRITE_TOKEN }}
 ```
 
-Add your `api-key` and`deployment-id` in Github Secrets and refer them in the Workflow.
-- `PYRITE_API_KEY`
-- `PYRITE_DEPLOYMENT_ID`
+Add your `token` in Github Secrets and refer them in the Workflow.
+- `PYRITE_TOKEN`
