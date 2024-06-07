@@ -25,18 +25,20 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core_1 = __nccwpck_require__(9093);
 const axios_1 = __importDefault(__nccwpck_require__(314));
 const constants_1 = __nccwpck_require__(8764);
-function main() {
-    const apiKey = (0, core_1.getInput)("api-key");
-    const deploymentId = (0, core_1.getInput)("deployment-id");
-    if (!apiKey) {
-        throw new Error("api-key is required");
+async function main() {
+    const token = (0, core_1.getInput)("token");
+    if (token.trim().length === 0) {
+        throw new Error("Required token");
     }
-    if (!deploymentId) {
-        throw new Error("deployment-id is required");
+    const [apiKey, deploymentId] = await new Promise((resolve, _) => resolve(atob(token).split(":"))).catch((_) => {
+        throw new Error("Invalid token: Token must be base64 encoded");
+    });
+    if (!apiKey || !deploymentId) {
+        throw new Error("Invalid token: Parsing token failed");
     }
     axios_1.default
         .post(`${constants_1.BASE_URL}/deployments/${deploymentId}/redeploy`, {}, { headers: { "api-key": apiKey } })
-        .then((res) => console.log(res.data))
+        .then((res) => console.log(res.data?.message))
         .catch((error) => {
         console.error(error.message, error.response?.data);
         throw Error(error.message);
