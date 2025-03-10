@@ -8,7 +8,7 @@
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BASE_URL = void 0;
-exports.BASE_URL = "https://www.pyrite.cloud/api";
+exports.BASE_URL = "https://api.pyrite.site";
 
 
 /***/ }),
@@ -30,15 +30,19 @@ async function main() {
     if (token.trim().length === 0) {
         throw new Error("Required token");
     }
-    const [apiKey, deploymentId] = await new Promise((resolve, _) => resolve(atob(token).split(":"))).catch((_) => {
+    const [apiKey, serviceId] = await new Promise((resolve, _) => resolve(atob(token).split(":"))).catch((_) => {
         throw new Error("Invalid token: Token must be base64 encoded");
     });
-    if (!apiKey || !deploymentId) {
+    if (!apiKey || !serviceId) {
         throw new Error("Invalid token: Parsing token failed");
     }
     axios_1.default
-        .post(`${constants_1.BASE_URL}/deployments/${deploymentId}/redeploy`, {}, { headers: { "api-key": apiKey } })
-        .then((res) => console.log(res.data?.message))
+        .post(`${constants_1.BASE_URL}/services/${serviceId}/redeploy`, {}, { headers: { "api-key": apiKey } })
+        .then((res) => {
+        const serviceId = res.data?.id;
+        const serviceName = res.data?.name;
+        console.log(`Service ${serviceName}(${serviceId}) redeployed successfully`);
+    })
         .catch((error) => {
         console.error(error.message, error.response?.data);
         throw Error(error.message);
