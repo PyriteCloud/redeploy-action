@@ -8,7 +8,7 @@
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BASE_URL = void 0;
-exports.BASE_URL = "https://api.pyrite.site";
+exports.BASE_URL = "https://api.pyrite.cloud";
 
 
 /***/ }),

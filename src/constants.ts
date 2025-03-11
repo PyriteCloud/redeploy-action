@@ -1,1 +1,1 @@
-export const BASE_URL = "https://api.pyrite.site";
+export const BASE_URL = "https://api.pyrite.cloud";
