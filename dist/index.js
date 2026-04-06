@@ -27,6 +27,7 @@ const axios_1 = __importDefault(__nccwpck_require__(314));
 const constants_1 = __nccwpck_require__(8764);
 async function main() {
     const token = (0, core_1.getInput)("token");
+    const environment = (0, core_1.getInput)("environment");
     if (token.trim().length === 0) {
         throw new Error("Required token");
     }
@@ -37,7 +38,7 @@ async function main() {
         throw new Error("Invalid token: Parsing token failed");
     }
     axios_1.default
-        .post(`${constants_1.BASE_URL}/services/${serviceId}/redeploy`, {}, { headers: { "api-key": apiKey } })
+        .post(`${constants_1.BASE_URL}/services/${serviceId}/redeploy?environment=${environment}`, {}, { headers: { "api-key": apiKey } })
         .then((res) => {
         const serviceId = res.data?.id;
         const serviceName = res.data?.name;

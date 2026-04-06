@@ -4,6 +4,7 @@ import { BASE_URL } from "./constants";
 
 async function main() {
 	const token = getInput("token");
+	const environment = getInput("environment");
 
 	if (token.trim().length === 0) {
 		throw new Error("Required token");
@@ -21,7 +22,7 @@ async function main() {
 
 	axios
 		.post(
-			`${BASE_URL}/services/${serviceId}/redeploy`,
+			`${BASE_URL}/services/${serviceId}/redeploy?environment=${environment}`,
 			{},
 			{ headers: { "api-key": apiKey } },
 		)
