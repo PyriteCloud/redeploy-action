@@ -1,30 +1,42 @@
 import { getInput } from "@actions/core";
-import axios, { AxiosError } from "axios";
+import axios, { type AxiosError } from "axios";
 import { BASE_URL } from "./constants";
 
-function main() {
-  const apiKey = getInput("api-key");
-  const deploymentId = getInput("deployment-id");
+async function main() {
+	const token = getInput("token");
+	const environment = getInput("environment");
 
-  if (!apiKey) {
-    throw new Error("api-key is required");
-  }
+	if (token.trim().length === 0) {
+		throw new Error("Required token");
+	}
 
-  if (!deploymentId) {
-    throw new Error("deployment-id is required");
-  }
+	const [apiKey, serviceId] = await new Promise<string[]>((resolve, _) =>
+		resolve(atob(token).split(":")),
+	).catch((_) => {
+		throw new Error("Invalid token: Token must be base64 encoded");
+	});
 
-  axios
-    .post(
-      `${BASE_URL}/deployments/${deploymentId}/redeploy`,
-      {},
-      { headers: { "api-key": apiKey } }
-    )
-    .then((res) => console.log(res.data))
-    .catch((error: AxiosError) => {
-      console.error(error.message, error.response?.data);
-      throw Error(error.message);
-    });
+	if (!apiKey || !serviceId) {
+		throw new Error("Invalid token: Parsing token failed");
+	}
+
+	axios
+		.post(
+			`${BASE_URL}/services/${serviceId}/redeploy?environment=${environment}`,
+			{},
+			{ headers: { "api-key": apiKey } },
+		)
+		.then((res) => {
+			const serviceId = res.data?.id;
+			const serviceName = res.data?.name;
+			console.log(
+				`Service ${serviceName}(${serviceId}) redeployed successfully`,
+			);
+		})
+		.catch((error: AxiosError) => {
+			console.error(error.message, error.response?.data);
+			throw Error(error.message);
+		});
 }
 
 main();

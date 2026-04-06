@@ -1,19 +1,20 @@
-name: "Pyrite Cloud Redeploy Action"
-description: "This action redeploys the deployment on Pyrite Cloud."
-author: "Ayush Chothe"
+name: 'Pyrite Cloud Redeploy Action'
+description: 'This action redeploys the deployment on Pyrite Cloud.'
+author: 'Ayush Chothe'
 
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: 'node20'
+  main: 'dist/index.js'
 
 inputs:
-  api-key:
-    description: "Pyrite Cloud API Key"
+  token:
+    description: 'Pyrite Cloud token for specific deployment'
     required: true
-  deployment-id:
-    description: "Pyrite Cloud Deployment ID"
-    required: true
+  environment:
+    description: 'Environment name to redeploy'
+    default: 'production'
+    required: false
 
 branding:
   icon: refresh-cw
-  color: "green"
+  color: 'green'
